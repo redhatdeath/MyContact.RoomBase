@@ -12,10 +12,10 @@ public interface PeopleDomainRepository {
 
     void peopleEditById(People people);
 
-    void peopleDeleteById(People people);
+    void peopleDeleteById(String _id);
 
     MutableLiveData<ArrayList<People>> peopleGetAll();
 
-    MutableLiveData<People> peopleGetById(int _id);
+    MutableLiveData<People> peopleGetById(String _id);
 
 }

@@ -1,11 +1,9 @@
 package ru.shanin.mycontact.presentation.fragments.list_of_people;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import ru.shanin.mycontact.R;
-import ru.shanin.mycontact.app.AppStart;
 import ru.shanin.mycontact.domain.entity.People;
 
 
@@ -27,20 +24,15 @@ public class Adapter
     public static final int VIEW_TYPE_PEOPLE_AGE_4 = 400;
     public static final int VIEW_TYPE_PEOPLE_AGE_DEFAULT = 500;
 
-    private static int count = 0;
-
     public OnPeopleClickListener peopleClickListener = null;
 
     public Adapter(DiffCallback diffCallback) {
         super(diffCallback);
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (AppStart.isLog)
-            Log.w("onCreateViewHolder", "onCreateViewHolder, count = " + (++count));
         int layout;
         switch (viewType) {
             case VIEW_TYPE_PEOPLE_AGE_1:
@@ -82,18 +74,12 @@ public class Adapter
         viewHolder.imPhoto.setImageResource(resID);
         viewHolder.itemView.setOnClickListener(
                 v -> {
-                    Snackbar
-                            .make
-                                    (
-                                            viewHolder.itemView,
-                                            "people position = " + position + "\n" +
-                                                    "people _id = " + people.get_id(),
-                                            Snackbar.LENGTH_LONG
-                                    )
-                            .show();
+                    Snackbar.make(viewHolder.itemView,
+                            "people position = " + position + "\n" +
+                                    "people _id = " + people.getId(),
+                            Snackbar.LENGTH_LONG).show();
                     peopleClickListener.onPeopleClick(getCurrentList().get(position));
-                }
-        );
+                });
     }
 
     @Override

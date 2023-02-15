@@ -1,7 +1,5 @@
 package ru.shanin.mycontact.data.generate;
 
-import android.content.Context;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +7,6 @@ import java.util.Collections;
 import ru.shanin.mycontact.R;
 import ru.shanin.mycontact.domain.entity.People;
 import ru.shanin.mycontact.domain.entity.PeopleInfo;
-
 
 public class NewData {
 
@@ -30,11 +27,7 @@ public class NewData {
         String digits = "0123456789";
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < length; i++)
-            result.append(
-                    digits.charAt(
-                            (int) (Math.random() * 10)
-                    )
-            );
+            result.append(digits.charAt((int) (Math.random() * 10)));
         return result.toString();
     }
 
@@ -46,29 +39,23 @@ public class NewData {
         String alphabetInUpperCase = "QWERTYUIOPASDFGHJKLZXCVBNM";
         String alphabetInLowerCase = "qwertyuiopasdfghjklzxcvbnm";
         StringBuilder result = new StringBuilder();
-        result.append(
-                alphabetInUpperCase.charAt(
-                        (int) (Math.random() * 26)
-                )
-        );
-        for (int i = 0; i < length - 1; i++) {
-            result.append(
-                    alphabetInLowerCase.charAt(
-                            (int) (Math.random() * 26)
-                    )
-            );
-        }
+        result.append(alphabetInUpperCase.charAt((int) (Math.random() * 26)));
+        for (int i = 0; i < length - 1; i++)
+            result.append(alphabetInLowerCase.charAt((int) (Math.random() * 26)));
         return result.toString();
     }
 
+    public static String genLastName() {
+        return genString(6);
+    }
+
     public static String genFirstName() {
-        return genString(2);
+        return genString(6);
     }
 
     public static String genSecondName() {
-        return genString(3);
+        return genString(8);
     }
-
 
     public static ArrayList<String> genListOfKnowledge() {
         String[] knowledge = {
@@ -80,29 +67,18 @@ public class NewData {
                 " Curry ", " Delphi ", " Rust ", " Scala "
         };
         ArrayList<String> listOfKnowledge = new ArrayList<>();
-        for (int i = 0; i < (int) (Math.random() * 3 + 1); i++) {
+        for (int i = 0; i < (int) (Math.random() * 3 + 1); i++)
             listOfKnowledge.add(knowledge[(int) (Math.random() * knowledge.length)]);
-        }
         Collections.sort(listOfKnowledge);
         return listOfKnowledge;
     }
 
-
     public static People newPeople() {
+        String ln = genLastName();
         String fn = genFirstName();
         String sn = genSecondName();
-        return
-                new People(
-                        new PeopleInfo(
-                                fn, sn,
-                                fn + "_" + sn + "@gmail.com",
-                                genPhoneNumber(),
-                                genListOfKnowledge(),
-                                genPathToPhoto()
-                        )
-                );
+        return new People(new PeopleInfo(
+                ln, fn, sn, ln + "_" + fn + "@gmail.com",
+                genPhoneNumber(), genPathToPhoto(), genListOfKnowledge()));
     }
-
-
 }
-

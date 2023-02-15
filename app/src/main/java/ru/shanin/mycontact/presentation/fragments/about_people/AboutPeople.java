@@ -26,17 +26,17 @@ public class AboutPeople extends Fragment {
     private static final String ARGUMENT_PEOPLE_GSON = "people Gson";
     private static final String ARGUMENT_PEOPLE_ID = "people id";
     private People people;
-    private int peopleId;
+    private String peopleId;
 
     private int[] color = {0xAA55FF00, 0xAA550033, 0xAA550077, 0xAA5500AA, 0xAA5500FF};
 
     public static AboutPeople newInstance(
             String peopleGson,
-            int peopleId
+            String peopleId
     ) {
         Bundle args = new Bundle();
         args.putString(ARGUMENT_PEOPLE_GSON, peopleGson);
-        args.putInt(ARGUMENT_PEOPLE_ID, peopleId);
+        args.putString(ARGUMENT_PEOPLE_ID, peopleId);
         AboutPeople fragment = new AboutPeople();
         fragment.setArguments(args);
         return fragment;
@@ -50,11 +50,7 @@ public class AboutPeople extends Fragment {
             throw new RuntimeException("Argument '''People Gson''' is absent");
         String peopleGson = args.getString(ARGUMENT_PEOPLE_GSON);
         people = (new Gson()).fromJson(peopleGson, People.class);
-        peopleId = args.getInt(ARGUMENT_PEOPLE_ID);
-        if (AppStart.isLog) {
-            Log.w("AboutPeople", "Incoming parseParams:   " + peopleGson + "\n");
-            Log.w("AboutPeople", "Confirm ID:   " + (people.get_id() == peopleId) + "\n");
-        }
+        peopleId = args.getString(ARGUMENT_PEOPLE_ID);
     }
 
     @Override

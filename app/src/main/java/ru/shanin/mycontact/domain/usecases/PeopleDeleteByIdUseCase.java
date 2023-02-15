@@ -11,8 +11,8 @@ public class PeopleDeleteByIdUseCase {
         this.repository = repository;
     }
 
-    public void peopleDeleteById(People people) {
-        repository.peopleDeleteById(people);
+    public void peopleDeleteById(String _id) {
+        repository.peopleDeleteById(_id);
     }
 
 }

@@ -5,11 +5,12 @@ import static java.util.stream.Collectors.groupingBy;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PeopleInfo {
-
+    private final String lastName;
     private final String firstName;
     private final String secondName;
     private final int age;
@@ -19,13 +20,16 @@ public class PeopleInfo {
     private final String pathToPhoto;
 
     public PeopleInfo(
+            String lastName,
             String firstName,
             String secondName,
             String email,
             String phone,
-            ArrayList<String> listOfKnowledge,
-            String pathToPhoto
+            String pathToPhoto,
+            ArrayList<String> listOfKnowledge
+
     ) {
+        this.lastName = lastName;
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
@@ -36,14 +40,16 @@ public class PeopleInfo {
     }
 
     public PeopleInfo(
+            String lastName,
             String firstName,
             String secondName,
             int age,
             String email,
             String phone,
-            ArrayList<String> listOfKnowledge,
-            String pathToPhoto
+            String pathToPhoto,
+            ArrayList<String> listOfKnowledge
     ) {
+        this.lastName = lastName;
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
@@ -56,15 +62,23 @@ public class PeopleInfo {
     @NonNull
     @Override
     public String toString() {
-        return firstName + " " + secondName;
+        return lastName + ", " + firstName + " " + secondName;
+    }
+
+    private String createSHA256String() {
+        return lastName + firstName + secondName + age +
+                email + phone +
+                (new Gson()).toJson(listOfKnowledge);
+    }
+
+    public String getToSHA256() {
+        return createSHA256String();
     }
 
     @Override
     public boolean equals(Object object) {
-        if (this == object)
-            return true;
-        if (object == null || object.getClass() != getClass())
-            return false;
+        if (this == object) return true;
+        if (object == null || object.getClass() != getClass()) return false;
         PeopleInfo peopleInfo = (PeopleInfo) object;
         return
                 this.firstName.equals(peopleInfo.getFirstName()) &&
@@ -76,15 +90,12 @@ public class PeopleInfo {
                         this.listOfKnowledge == peopleInfo.getListOfKnowledge() ||
                                 this.listOfKnowledge.stream()
                                         .collect(groupingBy(k -> k, counting()))
-                                        .equals(
-                                                peopleInfo.getListOfKnowledge().stream()
-                                                        .collect(groupingBy(k -> k, counting())))
-                );
+                                        .equals(peopleInfo.getListOfKnowledge().stream()
+                                                .collect(groupingBy(k -> k, counting()))));
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, secondName, age, email, phone, listOfKnowledge, pathToPhoto);
+    public String getLastName() {
+        return lastName;
     }
 
     public String getFirstName() {
@@ -114,7 +125,6 @@ public class PeopleInfo {
     public String getPathToPhoto() {
         return pathToPhoto;
     }
-
 
 
 }

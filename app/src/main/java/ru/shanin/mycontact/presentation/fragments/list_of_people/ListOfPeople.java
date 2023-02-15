@@ -126,7 +126,7 @@ public class ListOfPeople extends Fragment {
                             int direction
                     ) {
                         People people = adapter.getCurrentList().get(viewHolder.getAdapterPosition());
-                        viewModel.deletePeople(people);
+                        viewModel.deletePeople(people.getId());
                     }
 
                 }
@@ -162,7 +162,7 @@ public class ListOfPeople extends Fragment {
     private void startAboutPeople(People people) {
         Fragment fragment = AboutPeople.newInstance(
                 (new Gson()).toJson(people),
-                people.get_id());
+                people.getId());
         FragmentManager fragmentManager = getParentFragmentManager();
         fragmentManager.popBackStack();
         if (isOnePane)

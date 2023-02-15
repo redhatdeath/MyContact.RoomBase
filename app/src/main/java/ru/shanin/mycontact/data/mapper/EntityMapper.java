@@ -12,45 +12,33 @@ import ru.shanin.mycontact.domain.entity.PeopleInfo;
 public class EntityMapper {
 
     public static RoomPeople toRoomPeople(People people) {
-        if (people.get_id() == People.UNDEFINED_ID)
-            return new RoomPeople(
-                    people.getPeopleInfo().getFirstName() + "",
-                    people.getPeopleInfo().getSecondName() + "",
-                    people.getPeopleInfo().getAge() + 0,
-                    people.getPeopleInfo().getPhone() + "",
-                    people.getPeopleInfo().getEmail() + "",
-                    people.getPeopleInfo().getPathToPhoto() + "",
-                    (new Gson()).toJson(people.getPeopleInfo().getListOfKnowledge()) + ""
-            );
-        else
-            return new RoomPeople(
-                    people.getPeopleInfo().getFirstName() + "",
-                    people.getPeopleInfo().getSecondName() + "",
-                    people.getPeopleInfo().getAge() + 0,
-                    people.getPeopleInfo().getPhone() + "",
-                    people.getPeopleInfo().getEmail() + "",
-                    people.getPeopleInfo().getPathToPhoto() + "",
-                    (new Gson()).toJson(people.getPeopleInfo().getListOfKnowledge()) + "",
-                    people.get_id() + 0
-            );
+        return new RoomPeople(
+                people.getId() + "",
+                people.getPeopleInfo().getLastName() + "",
+                people.getPeopleInfo().getFirstName() + "",
+                people.getPeopleInfo().getSecondName() + "",
+                people.getPeopleInfo().getAge() + 0,
+                people.getPeopleInfo().getPhone() + "",
+                people.getPeopleInfo().getEmail() + "",
+                people.getPeopleInfo().getPathToPhoto() + "",
+                (new Gson()).toJson(people.getPeopleInfo().getListOfKnowledge()) + ""
+        );
     }
 
     public static People toPeople(RoomPeople roomPeople) {
         return new People(
-                roomPeople.getPeopleId()+0,
+                roomPeople.getPeopleId() + "",
                 new PeopleInfo(
+                        roomPeople.getLastName() + "",
                         roomPeople.getFirstName() + "",
                         roomPeople.getSecondName() + "",
                         roomPeople.getAge() + 0,
                         roomPeople.getEmail() + "",
                         roomPeople.getPhone() + "",
+                        roomPeople.getPathToPhoto() + "",
                         (new Gson()).fromJson(
                                 roomPeople.getListOfKnowledge(),
                                 new TypeToken<ArrayList<String>>() {
-                                }.getType()
-                        ),
-                        roomPeople.getPathToPhoto() + ""
-                )
-        );
+                                }.getType())));
     }
 }

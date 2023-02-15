@@ -1,8 +1,8 @@
 package ru.shanin.mycontact.data.db_room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -15,6 +15,7 @@ public class RoomPeople {
     public static final String NAME_TABLE = "Peoples";
 
     public static final String COL_PEOPLE_ID = "People_id";
+    public static final String COL_LAST_NAME = "Last_name";
     public static final String COL_FIRST_NAME = "First_name";
     public static final String COL_SECOND_NAME = "Second_name";
     public static final String COL_AGE = "Age";
@@ -23,34 +24,37 @@ public class RoomPeople {
     public static final String COL_PATH_TO_PHOTO = "Path_to_photo";
     public static final String COL_LIST_OF_KNOWLEDGE = "List_of_knowledge";
 
-    public static final int DEFAULT_ROW_ID = 1;
-
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = COL_PEOPLE_ID)
-    public int peopleId;
+    private final String peopleId;
 
+    @ColumnInfo(name = COL_LAST_NAME)
+    private final String lastName;
     @ColumnInfo(name = COL_FIRST_NAME)
-    public String firstName;
+    private final String firstName;
 
     @ColumnInfo(name = COL_SECOND_NAME)
-    public String secondName;
+    private final String secondName;
 
     @ColumnInfo(name = COL_AGE)
-    public int age;
+    private final int age;
 
     @ColumnInfo(name = COL_PHONE)
-    public String phone;
+    private final String phone;
 
     @ColumnInfo(name = COL_EMAIL)
-    public String email;
+    private final String email;
 
     @ColumnInfo(name = COL_PATH_TO_PHOTO)
-    public String pathToPhoto;
+    private final String pathToPhoto;
 
     @ColumnInfo(name = COL_LIST_OF_KNOWLEDGE)
-    public String listOfKnowledge;
+    private final String listOfKnowledge;
 
     public RoomPeople(
+            String peopleId,
+            String lastName,
             String firstName,
             String secondName,
             int age,
@@ -59,26 +63,7 @@ public class RoomPeople {
             String pathToPhoto,
             String listOfKnowledge
     ) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.age = age;
-        this.phone = phone;
-        this.email = email;
-        this.pathToPhoto = pathToPhoto;
-        this.listOfKnowledge = listOfKnowledge;
-        this.peopleId = DEFAULT_ROW_ID;
-    }
-
-    @Ignore
-    public RoomPeople(
-            String firstName,
-            String secondName,
-            int age,
-            String phone,
-            String email, String pathToPhoto,
-            String listOfKnowledge,
-            int peopleId
-    ) {
+        this.lastName = lastName;
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
@@ -89,7 +74,11 @@ public class RoomPeople {
         this.peopleId = peopleId;
     }
 
-    public int getPeopleId() {
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPeopleId() {
         return peopleId;
     }
 

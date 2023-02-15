@@ -17,7 +17,7 @@ public class AboutPeopleViewModel extends ViewModel {
         this.getById = getById;
     }
 
-    protected MutableLiveData<People> getPeople(int peopleId) {
+    protected MutableLiveData<People> getPeople(String peopleId) {
         peopleLiveData = getById.peopleGetById(peopleId);
         return peopleLiveData;
     }

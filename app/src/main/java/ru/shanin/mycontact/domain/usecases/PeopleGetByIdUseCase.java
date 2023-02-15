@@ -13,7 +13,7 @@ public class PeopleGetByIdUseCase {
         this.repository = repository;
     }
 
-    public MutableLiveData<People> peopleGetById(int _id) {
+    public MutableLiveData<People> peopleGetById(String _id) {
         return repository.peopleGetById(_id);
     }
 }

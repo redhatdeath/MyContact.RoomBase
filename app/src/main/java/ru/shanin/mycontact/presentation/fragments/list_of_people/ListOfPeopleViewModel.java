@@ -39,8 +39,8 @@ public class ListOfPeopleViewModel extends ViewModel {
         addNew.peopleAddNew(people);
     }
 
-    protected void deletePeople(People people) {
-        delete.peopleDeleteById(people);
+    protected void deletePeople(String id) {
+        delete.peopleDeleteById(id);
     }
 
 }

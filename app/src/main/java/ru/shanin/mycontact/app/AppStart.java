@@ -11,8 +11,6 @@ import ru.shanin.mycontact.domain.usecases.PeopleGetByIdUseCase;
 
 
 public class AppStart extends Application {
-    public static final Boolean isLog = false;
-
     private PeopleGetByIdUseCase getById;
     private PeopleAddNewUseCases addNew;
     private PeopleDeleteByIdUseCase delete;
@@ -36,7 +34,6 @@ public class AppStart extends Application {
 
     private static AppStart instance;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,7 +46,6 @@ public class AppStart extends Application {
         delete = new PeopleDeleteByIdUseCase(peopleRoomRepositoryImpl);
         getAll = new PeopleGetByAllUseCase(peopleRoomRepositoryImpl);
     }
-
 
     public static AppStart getInstance() {
         return instance;

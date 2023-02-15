@@ -12,7 +12,6 @@ import ru.shanin.mycontact.data.db_room.entity.RoomPeople;
 
 @Database(entities = {RoomPeople.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-
     private static AppDatabase instance;
 
     public abstract RoomPeopleDao roomPeopleDao();
@@ -31,5 +30,4 @@ public abstract class AppDatabase extends RoomDatabase {
         instance = tempInstance;
         return tempInstance;
     }
-
 }

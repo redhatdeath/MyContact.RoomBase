@@ -3,50 +3,58 @@ package ru.shanin.mycontact.domain.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 
-import ru.shanin.mycontact.domain.entity.comparators.ComparatorByFirstName;
-import ru.shanin.mycontact.domain.entity.comparators.ComparatorByFirstSecondName;
-import ru.shanin.mycontact.domain.entity.comparators.ComparatorBySecondFirstName;
-import ru.shanin.mycontact.domain.entity.comparators.ComparatorBySecondName;
+import ru.shanin.mycontact.domain.entity.comparators.ComparatorByID;
+import ru.shanin.mycontact.domain.entity.comparators.ComparatorByLastFirstSecondName;
 
 public class People {
-    public static final int UNDEFINED_ID;
-
-    public static final Comparator<People> byFN;
-    public static final Comparator<People> bySN;
-    public static final Comparator<People> byFSN;
-    public static final Comparator<People> bySFN;
-
+    public static final Comparator<People> byLFN;
+    public static final Comparator<People> byID;
 
     static {
-        UNDEFINED_ID = -1;
-        byFN = new ComparatorByFirstName();
-        bySN = new ComparatorBySecondName();
-        byFSN = new ComparatorByFirstSecondName();
-        bySFN = new ComparatorBySecondFirstName();
+        byLFN = new ComparatorByLastFirstSecondName();
+        byID = new ComparatorByID();
     }
 
     private final PeopleInfo peopleInfo;
-    private int _id;
+    private final String id;
 
-    public int get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
+    // Constructor for exist "room's database entity"
+    public People(String id, PeopleInfo peopleInfo) {
+        this.peopleInfo = peopleInfo;
+        this.id = id;
     }
 
-
+    // Constructor by default for new objects
     public People(PeopleInfo peopleInfo) {
         this.peopleInfo = peopleInfo;
-        this._id = UNDEFINED_ID;
+        this.id = createId(peopleInfo);
     }
 
-    public People(int _id, PeopleInfo peopleInfo) {
-        this.peopleInfo = peopleInfo;
-        this._id = _id;
+    private String createId(PeopleInfo peopleInfo) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("No SHA256 Algorithm");
+        }
+        byte[] encodedHash = digest.digest(
+                this.peopleInfo.getToSHA256().getBytes(StandardCharsets.UTF_8));
+        StringBuilder hexString = new StringBuilder(2 * encodedHash.length);
+        for (byte hash : encodedHash) {
+            String hex = Integer.toHexString(0xff & hash);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
     @NonNull
@@ -55,24 +63,18 @@ public class People {
         return peopleInfo.toString();
     }
 
-
     public PeopleInfo getPeopleInfo() {
         return peopleInfo;
     }
 
     @Override
     public boolean equals(@Nullable Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
         People guest = (People) obj;
-        return
-                _id == guest.get_id()
-                        && (peopleInfo == guest.getPeopleInfo()
-                        || (peopleInfo != null && peopleInfo.equals(guest.getPeopleInfo()))
-                );
+        return id.equals(guest.getId())
+                && (peopleInfo == guest.getPeopleInfo()
+                || (peopleInfo != null && peopleInfo.equals(guest.getPeopleInfo()))
+        );
     }
 }
